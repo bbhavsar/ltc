@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 
+// g++ -std=c++11 rainwater.cc
+
 using namespace std;
 class Solution {
 public:
@@ -33,7 +35,7 @@ public:
 
 
 int main() {
-    vector<int> input {0,1,0,2,1,0,1,3,2,1,2,1};
+    vector<int> input = {0,1,0,2,1,0,1,3,2,1,2,1};
     Solution s;
     cout << s.trap(input) << endl;
 
