@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void genRecurse(const auto& in,
+void genRecurse(const vector<vector<int> >& in,
                 int level,
                 vector<int> *combo_so_far,
                 vector < vector <int> > *out) {
@@ -22,7 +22,7 @@ void genRecurse(const auto& in,
 
 
 
-void generateCombinations(const auto& in,
+void generateCombinations(const vector< vector<int> >& in,
                           vector < vector <int> > *out) {
     vector<int> combo_so_far;
     return genRecurse(in, 0, &combo_so_far, out);
