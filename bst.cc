@@ -86,6 +86,52 @@ public:
         cout << endl;
     }
 
+    void deleteTree(Node *curr) {
+        if (curr == NULL) {
+            return;
+        }
+
+        deleteTree(curr->left);
+        deleteTree(curr->right);
+        delete curr;
+        size--;
+    }
+
+    ~BST() {
+        deleteTree(root);
+        assert(size == 0);
+    }
+
+    Node * trimRecurse(Node *curr, int min, int max) {
+        if (curr == NULL) {
+            return NULL;
+        }
+
+        curr->left = trimRecurse(curr->left, min, max);
+        curr->right = trimRecurse(curr->right, min, max);
+        if (min <= curr->val && curr->val <= max) {
+            return curr;
+        }
+        if (curr->val < min) {
+            deleteTree(curr->left);
+            Node *rightTree = curr->right;
+            delete curr;
+            return rightTree;
+        }
+        if (curr->val > max) {
+            deleteTree(curr->right);
+            Node *leftTree = curr->left;
+            delete curr;
+            return leftTree;
+        }
+        // Not reachable
+        return NULL;
+    }
+
+    void trim(int min, int max) {
+      root = trimRecurse(root, min, max);
+    }
+
 private:
     void inorder(Node *curr) {
         if (curr == NULL) {
