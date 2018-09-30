@@ -31,7 +31,7 @@ public:
         min_heap.pop();
         max_heap.push(top);
       }
-      assert(abs((int)max_heap.size() - (int)min_heap.size() <= 1));
+      assert(abs((int)max_heap.size() - (int)min_heap.size()) <= 1);
     }
   }
 
