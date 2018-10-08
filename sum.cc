@@ -2,28 +2,26 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_set>
+#include <assert.h>
 
 using namespace std;
 
-vector< pair<int, int> > twosum_set(const vector<int>& in, int target) {
+void twosum_set(const vector<int>& in, int target, vector< vector<int> >& result) {
     unordered_set<int> s(in.begin(), in.end());
     unordered_set<int> seen;
 
-    vector< pair<int, int> > result;
     for (int elem : in) {
         if (s.count(target - elem) == 1 && seen.count(elem) == 0) {
-            result.push_back(make_pair(elem, target - elem));
+            result.emplace_back(initializer_list<int>{elem, target - elem});
             seen.insert(target - elem);
         }
     }
-    return result;
 }
 
-vector< pair<int, int> > twosum_noset(const vector<int>& in, int target) {
-    vector< pair<int, int> > result;
+void twosum_noset(const vector<int>& in, int target, vector< vector<int> >& result) {
     for (int l = 0, r = in.size() - 1; l <=r;) {
         if (in[l] + in[r] == target) {
-            result.push_back(make_pair(in[l], in[r]));
+            result.emplace_back(initializer_list<int>{in[l], in[r]});
             l++, r--;
         } else if (in[l] + in[r] > target) {
             r--;
@@ -31,50 +29,84 @@ vector< pair<int, int> > twosum_noset(const vector<int>& in, int target) {
             l++;
         }
     }
-
-    return result;
 }
 
-vector< vector<int> > threesum(vector<int>& in, int target) {
+void threesum(vector<int>& in, int target, vector< vector<int> >& result) {
     sort(in.begin(), in.end());
-    vector< vector<int> > result;
     for (int elem : in) {
-        vector< pair<int, int> > twosum = twosum_noset(in, target - elem);
-        for (const auto& p : twosum) {
-            vector<int> v = {p.first, p.second, elem};
-            result.push_back(v);
+        int size_before = result.size();
+        twosum_noset(in, target - elem, result);
+        int size_after = result.size();
+        int num_inserts = size_after - size_before;
+        if (num_inserts == 0) {
+            continue;
+        }
+        for (int i = result.size() - num_inserts; i < result.size(); i++) {
+            auto& v = result[i];
+            v.push_back(elem);
         }
     }
+}
 
-    return result;
+void ksum_impl(const vector<int>& in, int target, int k, vector< vector<int> >& result) {
+    assert(k >= 2);
+    if (k == 2) {
+        return twosum_noset(in, target, result);
+    }
+
+    for (int elem : in) {
+        int size_before = result.size();
+        ksum_impl(in, target - elem, k - 1, result);
+        int size_after = result.size();
+        int num_inserts = size_after - size_before;
+        if (num_inserts == 0) {
+            continue;
+        }
+        for (int i = result.size() - num_inserts; i < result.size(); i++) {
+            auto& v = result[i];
+            v.push_back(elem);
+        }
+    }
+}
+
+void ksum(vector<int>& in, int target, int k, vector< vector<int> >& result) {
+    sort(in.begin(), in.end());
+
+    return ksum_impl(in, target, k, result);
 }
 
 
-int main() {
-    vector<int> in = {3, 9, 4, 8, 6};
-
-    vector< pair<int, int> > result = twosum_set(in, 12);
-    for (auto p : result) {
-        cout << p.first << "," << p.second << endl;
-    }
-    cout << endl;
-
-    result = twosum_noset(in, 12);
-    for (auto p : result) {
-        cout << p.first << "," << p.second << endl;
-    }
-    cout << endl;
-
-    vector< vector<int> > r = threesum(in, 12);
-    for (auto v : r) {
+void print_result(vector< vector<int> >& result) {
+    for (auto v : result) {
         for (auto elem : v) {
             cout << elem << ",";
         }
         cout << endl;
     }
     cout << endl;
-    return 0;
 }
 
 
+int main() {
+    vector<int> in = {3, 9, 4, 8, 6};
+    sort(in.begin(), in.end());
+
+    vector< vector<int> > result;
+    twosum_set(in, 12, result);
+    print_result(result);
+
+    result.clear();
+    twosum_noset(in, 12, result);
+    print_result(result);
+
+    result.clear();
+    threesum(in, 12, result);
+    print_result(result);
+
+    result.clear();
+    ksum(in, 23, 4, result);
+    print_result(result);
+
+    return 0;
+}
 
