@@ -6,7 +6,8 @@
 #include <limits.h>
 #include <assert.h>
 #include <sstream>
-
+#include <list>
+#include <queue>
 
 using namespace std;
 
