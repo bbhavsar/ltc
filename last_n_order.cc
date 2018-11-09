@@ -14,20 +14,17 @@ You should be as efficient with time and space as possible.
 
 class LastN {
 private:
-    vector<int> orders;
     int N;
     int numElements;
     int tail;
+    vector<int> orders;
 
 public:
-    LastN(int n) : tail(0), numElements(0), N(n) {
-        orders.resize(N);
-    }
+    LastN(int n) : tail(0), numElements(0), N(n), orders(n, -1) {}
 
     int get_last(unsigned int i) {
-        assert(i < N);
-        if (i > numElements) {
-            return -1;
+        if (i >= N || i >= numElements) {
+            throw invalid_argument("Invalid input");
         }
 
         int idx = tail - i - 1;
@@ -54,9 +51,7 @@ int main() {
     cout << l.get_last(0) << endl;
     cout << l.get_last(1) << endl;
 
+    // cout << l.get_last(3) << endl;
+
     return 0;
-
 }
-
-
-
