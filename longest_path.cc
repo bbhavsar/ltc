@@ -72,7 +72,8 @@ string longest_path(string& str) {
 int main () {
     vector<string> strs = {
         "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext",
-        "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext" 
+        "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext",
+        "dir\n\tsubdir\n\t\tabrakadabra.txt\nlongestParentDir" 
         };
 
     for (auto s : strs) {
