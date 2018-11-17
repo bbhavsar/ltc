@@ -77,7 +77,7 @@ int main() {
     l.print_klast(48);
 
     l.print_klast(100);
-    l.print_klast(101);
+    // l.print_klast(101);
 
     return 0;
 }
