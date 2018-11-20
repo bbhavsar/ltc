@@ -23,6 +23,8 @@ wall everywhere else on the second row.
 
 struct Point {
     int x, y;
+    Point() : x(0), y(0) {}
+
     Point(int row, int col) : x(row), y(col) {}
 
     bool operator==(const Point& that) const {
@@ -31,6 +33,13 @@ struct Point {
 
     bool operator<(const Point& that) const {
         return this->x < that.x || (this->x == that.x && this->y < that.y);
+    }
+
+};
+
+struct PointHash {
+    size_t operator()(const Point& p) const {
+        return p.x * 31 + p.y;
     }
 };
 
@@ -50,21 +59,21 @@ int min_steps_matrix(const vector< vector<bool> >& mat, const Point& start,
 
     queue<Point> q;
     q.push(start);
-    set<Point> visited;
+    unordered_set<Point, PointHash> visited;
     visited.insert(start);
 
     while (!q.empty()) {
         int num_size = q.size();
         while (num_size > 0) {
-            Point coord = q.front();
+            const Point coord = q.front();
             q.pop();
             num_size--;
             if (coord == end) {
                 return num_steps;
             }
             for (auto p : up_down) {
-                int x = coord.x + p.x;
-                int y = coord.y + p.y;
+                const int x = coord.x + p.x;
+                const int y = coord.y + p.y;
                 if (x < 0 || x >= rows || y < 0 || y >= cols ||
                     visited.count(Point(x,y)) != 0 || mat[x][y]) {
                     continue;
