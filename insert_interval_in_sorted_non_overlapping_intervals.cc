@@ -9,11 +9,10 @@ This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 
 vector< pair<int, int> > insert_interval(const vector< pair<int, int> >& intervals,
                                          const pair<int, int>& extra_interval) {
-
     vector< pair<int, int> > result;
     pair<int, int> new_interval = extra_interval;
     for (int i = 0; i < intervals.size(); i++) {
-        pair<int, int> curr = intervals[i];
+        const pair<int, int> curr = intervals[i];
         if (curr.second < new_interval.first) {
             result.emplace_back(curr);
         } else if (curr.first > new_interval.second) {
