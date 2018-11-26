@@ -54,7 +54,7 @@ bool wildcard_match_recurse(const string& s, int si, const string& p, int pj) {
 
         // * matches 1 or more chars from text
         while (si < s.length()) {
-            if (wildcard_match_recurse(s, si + 1, p, pj)) {
+            if (wildcard_match_recurse(s, si + 1, p, pj + 1)) {
                 return true;
             }
             si++;
@@ -94,7 +94,7 @@ bool wildcard_match_memo(const string& s, int si, const string& p, int pj,
 
         // * matches 1 or more chars from text
         while (si < s.length()) {
-            if (wildcard_match_memo(s, si + 1, p, pj, cache)) {
+            if (wildcard_match_memo(s, si + 1, p, pj + 1, cache)) {
                 cache[si][pj] = true;
                 return true;
             }
@@ -131,7 +131,7 @@ bool wildcard_match_dp(string& s , string& p) {
             dp[i][j] = dp[i][j-1]
             OR
             // * matches 1 or more chars in text
-            dp[i][j] = dp[[i-1][j]
+            dp[i][j] = dp[i-1][j]
         else false
     */
 
@@ -166,6 +166,7 @@ bool wildcard_match_dp(string& s , string& p) {
 int main() {
     vector<string> strs = { "adasdxyz", "xysasxyza", "xyz", "xxyz"};
 
+    string p = "*xyz";
     for (auto s : strs) {
         num_calls_recurse = 0;
         cout << s << ": " << wildcard_match_recurse(s, 0, "*xyz", 0) << endl;
@@ -174,19 +175,24 @@ int main() {
 
     for (auto s : strs) {
         num_calls_memo = 0;
-        vector< vector<int> > cache(s.length() + 1, vector<int>(4 + 1, -1));
-        cout << s << ": " << wildcard_match_memo(s, 0, "*xyz", 0, cache) << endl;
+        cout << s << ": " << wildcard_match_memo(s, p) << endl;
         cout << "memo calls " << num_calls_memo << endl;
     }
 
-    string p = "*xyz";
     for (auto s : strs) {
         cout << s << ": " << wildcard_match_dp(s, p) << endl;
     }
 
     string text  = "babaaababaabababbbbbbaabaabbabababbaababbaaabbbaaab";
     string pattern = "***bba**a*bbba**aab**b";
-    cout << wildcard_match_dp(text, pattern) << endl;
+
+    num_calls_recurse = 0;
+    cout << text << ": " << wildcard_match_recurse(text, 0, pattern, 0) << endl;
+    cout << "recurse calls: " << num_calls_recurse << endl;
+
+    num_calls_memo = 0;
+    cout << text << ": " << wildcard_match_memo(text, pattern) << endl;
+    cout << "memo calls: " << num_calls_memo << endl;
 
     return 0;
 }
