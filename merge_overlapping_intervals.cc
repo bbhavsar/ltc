@@ -17,7 +17,7 @@ vector< pair<int, int> > merge_overlapping_intervals(vector< pair<int, int> >& i
     for (int i = 1; i < intervals.size(); i++) {
         pair<int, int> next = intervals[i];
         if (curr.second >= next.first) {
-            curr.second = next.second;
+            curr.second = max(next.second, curr.second);
         } else {
             result.emplace_back(curr);
             curr = next;
