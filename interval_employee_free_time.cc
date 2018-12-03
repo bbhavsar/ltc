@@ -68,8 +68,6 @@ vector<Interval> employeeFreeTime(vector<vector<Interval>>& schedule) {
         idx[minIdx]++;
     } while (true);
 
-    printIntervals(merged);
-
     vector<Interval> non_overlap = mergeOverlappingIntervals(merged);
     vector<Interval> result;
     for (int i = 1 ; i < non_overlap.size(); i++) {
@@ -78,7 +76,6 @@ vector<Interval> employeeFreeTime(vector<vector<Interval>>& schedule) {
         }
     }
 
-    printIntervals(result);
     return result;
 }
 
@@ -92,7 +89,7 @@ int main() {
          { Interval(0,25),Interval(29,31),Interval(40,47),Interval(57,87),Interval(91,94) }
         };
 
-    employeeFreeTime(input);
+    printIntervals(employeeFreeTime(input));
     return 0;
 }
 
