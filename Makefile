@@ -5,7 +5,7 @@ ifeq ($(detected_OS),Darwin)  # Mac OS X
 endif
 ifeq ($(detected_OS),Linux)
 	CC := g++
-	CFLAGS := -std=c++11
+	CFLAGS := -std=c++17
 endif
 
 
