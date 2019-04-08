@@ -54,6 +54,37 @@ bool wordBreak(string s, const vector<string>& wordDict) {
     return false;
 }
 
+bool prefix_match(const string& s, int idx, const string& w) {
+    if (s.length() - idx < w.length()) {
+        return false;
+    }
+
+    return s.compare(idx, w.length(), w) == 0;
+}
+
+bool wordBreak(const string& s, int idx, const vector<string>& wordDict, unordered_map<int, bool>& cache) {
+    if (idx >= s.length()) {
+        return true;
+    }
+
+    auto it = cache.find(idx);
+    if (it != cache.end()) {
+        return it->second;
+    }
+
+    for (const auto& w : wordDict) {
+        if (prefix_match(s, idx, w)) {
+            if (wordBreak(s, idx + w.length(), wordDict, cache)) {
+                cache[idx] = true;
+                return true;
+            }
+        }
+    }
+
+    cache[idx] = false;
+    return false;
+}
+
 
 int main() {
     unordered_map<string, vector<string> > strings = {
@@ -62,8 +93,11 @@ int main() {
         {  "applepenapple", {"apple", "pen"} }
     };
 
+    unordered_map<int, bool> cache;
     for (auto p : strings) {
+        cache.clear();
         cout << p.first << " " << wordBreak(p.first, p.second) << endl;
+        cout << p.first << " " << wordBreak(p.first, 0,  p.second, cache) << endl;
     }
     return 0;
 }
