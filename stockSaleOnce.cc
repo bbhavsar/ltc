@@ -20,6 +20,22 @@ double buySellOnce(const vector<double>& prices) {
     return max_so_far;
 }
 
+int maxProfit(vector<int>& prices) {
+    if (prices.empty()) {
+        return 0;
+    }
+
+    int min_so_far = prices[0];
+    int max_so_far = 0;
+    for (int i = 1; i < prices.size(); i++) {
+        int diff = prices[i] - min_so_far;
+        max_so_far = max(diff, max_so_far);
+        min_so_far = min(prices[i], min_so_far);
+    }
+
+    return max_so_far;
+}
+
 int main() {
     vector< vector<double> > prices = {
             { 10.0, 2.0, 3.0, 5.0, 4.0},

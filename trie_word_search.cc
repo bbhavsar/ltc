@@ -19,10 +19,11 @@ public:
     void add(string word) {
         TrieNode *curr = root;
         for (char c : word) {
-            if (curr->arr[c - 'a'] == NULL) {
-                curr->arr[c - 'a'] = new TrieNode(c, false);
+            const int offset = c - 'a';
+            if (curr->arr[offset] == NULL) {
+                curr->arr[offset] = new TrieNode(c, false);
             }
-            curr = curr->arr[c - 'a'];
+            curr = curr->arr[offset];
         }
         assert(curr != NULL);
         curr->end = true;
@@ -34,11 +35,12 @@ public:
         }
 
         char c = word[idx];
+        const int offset = c - 'a';
         if (c != '.') {
-            if (curr->arr[c - 'a'] == NULL) {
+            if (curr->arr[offset] == NULL) {
                 return false;
             } else {
-                return search(curr->arr[c - 'a'], word, idx + 1);
+                return search(curr->arr[offset], word, idx + 1);
             }
         } else {
             for (TrieNode* n : curr->arr) {
