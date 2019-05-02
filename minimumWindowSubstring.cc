@@ -3,7 +3,8 @@
 
 // https://leetcode.com/problems/minimum-window-substring/
 
-bool windowContainsTarget(const unordered_map<char, int>& window, const unordered_map<char, int>& target) {
+bool windowContainsTarget(const unordered_map<char, int>& window,
+    const unordered_map<char, int>& target) {
     for (const auto& p : target) {
         if (window.count(p.first) == 0) {
             return false;
@@ -31,49 +32,44 @@ string minWindow(string s, string t) {
     string result;
     int min_len = INT_MAX;
     unordered_map<char, int> window;
-    int i = 0;
-    while (i < n && target.count(s[i]) == 0) {
-        i++;
-    }
-    int j = i;
-    while (i < n) {
-        while (i < n && target.count(s[i]) == 0) {
-            window[s[i++]]--;
-        }
-        if (i == n) {
-            break;
-        }
-        j = max(j, i);
-        if (j == n) {
-            if (windowContainsTarget(window,target)) {
+    for (auto i = 0, j = 0; i < n && j < n;) {
+       bool found = false;
+       while (j < n) {
+            window[s[j++]]++;
+            if (windowContainsTarget(window, target)) {
                 if (min_len > j - i) {
                     min_len = j - i;
                     result = s.substr(i, min_len);
                 }
-            }
-        }
-        while (j < n) {
-            window[s[j]]++;
-            if (windowContainsTarget(window, target)) {
-                if (min_len > j - i + 1) {
-                    min_len = j - i + 1;
-                    result = s.substr(i, min_len);
-                }
+                found = true;
                 break;
             }
-            j++;
         }
-        window[s[i++]]--;
+        if (!found) {
+            break;
+        }
+        while (i < j - 1) {
+            window[s[i++]]--;
+            if (windowContainsTarget(window, target)) {
+                if (min_len > j - i) {
+                    min_len = j - i;
+                    result = s.substr(i, min_len);
+                }
+            } else {
+              break;
+            }
+        }
     }
 
     return result;
 }
 
 int main() {
-    cout <<  minWindow("XADOBECODEBANCBAX", "ABC") << endl;
     cout <<  minWindow("A", "A") << endl;
     cout <<  minWindow("BBA", "AB") << endl;
     cout <<  minWindow("BBAAC", "ABA") << endl;
+
+    cout <<  minWindow("XADOBECODEBANCBAX", "ABC") << endl;
     return 0;
 }
 
