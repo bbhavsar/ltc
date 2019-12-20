@@ -9,6 +9,9 @@
 #include <sstream>
 #include <list>
 #include <queue>
+#include <set>
+#include <stack>
+#include "mult.hh"
 
 using namespace std;
 
