@@ -9,11 +9,11 @@ enum Direction {
 };
 
 Direction getNextDirection(Direction currDirection, char instruction) {
-    static const unordered_map<Direction, vector<Direction> > next_direction = {
+    static const unordered_map<Direction, vector<Direction>, hash<int>  > next_direction = {
         {North, {West, East} },
-        {West, {South, North} },
+        {West,  {South, North} },
         {South, {East, West} },
-        {East, {North, South} }
+        {East,  {North, South} }
      };
 
     switch (instruction) {
@@ -33,7 +33,7 @@ bool isRobotBounded(string instructions) {
     int posX = 0;
     int posY = 0;
 
-    static const unordered_map<Direction, vector<int> > next_coord = {
+    static const unordered_map<Direction, vector<int>, hash<int> > next_coord = {
         { North, {0, 1} },
         { West,  {-1, 0} },
         { East,  {1, 0}  },

@@ -54,6 +54,11 @@ int maxFlowersIter(vector<int>& fb) {
     return count;
 }
 
+
+bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+    return maxFlowersIter(flowerbed) >= n;
+}
+
 int main() {
     vector<int> bed = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0};
 

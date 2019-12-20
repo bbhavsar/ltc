@@ -19,13 +19,13 @@ vector<string> fullJustify(vector<string>& words, const int maxWidth) {
         bool last_line = i == words.size();
         stringstream line_str;
         if (!last_line) {
-            int remaining_spaces = maxWidth - (line_len + line.size() - 1);
-            int num_words = line.size() - 1;
-            int extra_spaces_per_word = remaining_spaces - 1;
+            int remaining_spaces = maxWidth - line_len;
+            int num_slots = line.size() - 1;
+            int extra_spaces_per_word = remaining_spaces;
             int remainder_spaces_after_padding = 0;
-            if (num_words != 0) {
-                extra_spaces_per_word = remaining_spaces / num_words;
-                remainder_spaces_after_padding = remaining_spaces % num_words;
+            if (num_slots != 0) {
+                extra_spaces_per_word = remaining_spaces / num_slots;
+                remainder_spaces_after_padding = remaining_spaces % num_slots;
             }
             string extra_spaces;
             if (extra_spaces_per_word > 0) {
@@ -34,10 +34,7 @@ vector<string> fullJustify(vector<string>& words, const int maxWidth) {
             for (int j = 0; j < line.size(); j++) {
                 line_str << line[j];
                 if (j == 0 || j != line.size()-1) {
-                    line_str << " ";
-                    if (extra_spaces_per_word > 0) {
-                        line_str << extra_spaces;
-                    }
+                    line_str << extra_spaces;
                     if (remainder_spaces_after_padding > 0) {
                         line_str << " ";
                         remainder_spaces_after_padding--;
@@ -56,7 +53,7 @@ vector<string> fullJustify(vector<string>& words, const int maxWidth) {
                 line_str << " ";
             }
         }
-        cout << line_str.str() << endl;
+        // cout << line_str.str() << endl;
         assert(line_str.str().length() == maxWidth);
         result.push_back(line_str.str());
     }
@@ -65,7 +62,6 @@ vector<string> fullJustify(vector<string>& words, const int maxWidth) {
 }
 
 int main() {
-    /*
     vector<string> text = {"This", "is", "an", "example", "of", "text", "justification."};
     for (auto s : fullJustify(text, 16)) {
         cout << "'" << s << "'" << endl;
@@ -83,7 +79,6 @@ int main() {
         cout << "'" << s << "'" << endl;
     }
     cout << endl;
-    */
 
     vector<string> text3 = {"Listen","to","many,","speak","to","a","few."};
     for (auto s : fullJustify(text3, 6)) {

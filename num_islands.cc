@@ -40,3 +40,8 @@ int numIslands(vector<vector<char>>& grid) {
 }
 
 
+int main() {
+
+    return 0;
+}
+

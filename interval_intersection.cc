@@ -2,35 +2,33 @@
 
 // https://leetcode.com/problems/interval-list-intersections/
 
+void mergeHelper(const vector< vector<int> >& A,
+                 const vector< vector<int> >& B,
+                 int &ai,
+                 int &bi,
+                 vector< vector<int> >& result) {
+    if (B[bi][0] <= A[ai][1]) {
+        vector<int> r = {B[bi][0], min(A[ai][1], B[bi][1])};
+        result.push_back(r);
+        if (A[ai][1] < B[bi][1]) {
+            ai++;
+        } else {
+            bi++;
+        }
+    } else {
+        ai++;
+    }
+}
+
 vector<vector<int>> intervalIntersection(vector<vector<int>>& A, vector<vector<int>>& B) {
     int ai = 0, bi = 0;
 
     vector< vector<int> > result;
     while (ai < A.size() && bi < B.size()) {
         if (A[ai][0] < B[bi][0]) {
-            if (B[bi][0] <= A[ai][1]) {
-                vector<int> r = {B[bi][0], min(A[ai][1], B[bi][1])};
-                result.push_back(r);
-                if (A[ai][1] < B[bi][1]) {
-                    ai++;
-                } else {
-                    bi++;
-                }
-            } else {
-                ai++;
-            }
+            mergeHelper(A, B, ai, bi, result);
         } else {
-            if (A[ai][0] <= B[bi][1]) {
-                vector<int> r = {A[ai][0], min(B[bi][1], A[ai][1])};
-                result.push_back(r);
-                if (B[bi][1] < A[ai][1]) {
-                    bi++;
-                } else {
-                    ai++;
-                }
-            } else {
-                bi++;
-            }
+            mergeHelper(B, A, bi, ai, result);
         }
     }
     return result;

@@ -1,3 +1,4 @@
+#include <cstring>
 #include "common.hh"
 
 // Forward declaration of the read4 API.
