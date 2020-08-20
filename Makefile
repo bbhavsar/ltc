@@ -10,12 +10,12 @@ endif
 
 
 SRCS := $(wildcard *.cc)
-OBJS := $(patsubst %.cc,%.out,$(SRCS))
+OBJS := $(patsubst %.cc,target/%.out,$(SRCS))
 
 all: $(OBJS)
 
-%.out: %.cc
-	$(CC) $(CFLAGS) -o target/$@  $<
+target/%.out: %.cc
+	$(CC) $(CFLAGS) -o $@  $<
 clean:
 	rm   target/*.out
 
