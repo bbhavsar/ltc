@@ -4,7 +4,10 @@ project (LTC)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
+add_executable(cyclicBarrier cyclicBarrier.cc)
+target_link_libraries(cyclicBarrier Threads::Threads)
 
+add_executable(all_rectangles all_rectangles.cc)
 add_executable(3sum 3sum.cc)
 add_executable(3sumMult 3sumMult.cc)
 add_executable(3sumUnique 3sumUnique.cc)
@@ -53,8 +56,7 @@ add_executable(countBits countBits.cc)
 add_executable(course_schedule course_schedule.cc)
 add_executable(currency currency.cc)
 
-add_executable(cyclicBarrier cyclicBarrier.cc)
-target_link_libraries(cyclicBarrier Threads::Threads)
+
 
 add_executable(decode decode.cc)
 add_executable(degree_array degree_array.cc)
@@ -224,5 +226,8 @@ add_executable(wordBreak wordBreak.cc)
 add_executable(word_positions word_positions.cc)
 add_executable(xor xor.cc)
 add_executable(zigzagorder zigzagorder.cc)
+add_executable(prune_tree prune_tree.cpp)
+add_executable(nearest_larger_integer nearest_larger_integer.cpp)
+add_executable(sort_array_with_3elems sort_array_with_3elems.cc)
 
 
