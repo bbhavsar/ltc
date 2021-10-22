@@ -1,3 +1,6 @@
 *.out
 *.swp
+cmake-debug-build/
+target/
+
 
